@@ -31,3 +31,12 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = '__all__'
+
+
+class PasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        help_text='Leave empty if no change needed',
+        style={'input_type': 'password', 'placeholder': 'Password'}
+    )
