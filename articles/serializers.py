@@ -32,6 +32,19 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
 
+    # Метод validate работает на уровне класса и обязательно должна вернуть validated_data
+    def validate(self, attrs):
+        if attrs['title'] == attrs['description']:
+            raise serializers.ValidationError('field title must not be the same to field description')
+        return attrs
+
+    # Метод validate_<some field> работает c конкретным полем и обязательно должна вернуть <some field>
+    def validate_title(self, title):
+        if len(title) < 4:
+            raise serializers.ValidationError(
+                f'You inserted very small number characters {len(title)}. Must be 4 at least')
+        return title
+
 
 class PasswordSerializer(serializers.Serializer):
     password = serializers.CharField(
